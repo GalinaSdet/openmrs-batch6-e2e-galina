@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.safari.SafariDriver;
 
 import java.time.Duration;
 
@@ -13,10 +14,10 @@ public class Driver {
     private static WebDriver driver;
 
     private Driver(){}
-    //static method returns a private static variable//accessed by ClassName.methodName();
+
     public static WebDriver getDriver(){
 
-        String browser = ConfigReader.getProperty("browser");
+        String browser = ConfigReader.getProperty("browser").toLowerCase();
 
         switch (browser){
             case "chrome":
@@ -27,9 +28,9 @@ public class Driver {
                 WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
                 break;
-            case "ie":
-                WebDriverManager.iedriver().setup();
-                driver = new InternetExplorerDriver();
+            case "safari":
+                WebDriverManager.safaridriver().setup();
+                driver = new SafariDriver();
                 break;
             case "edge":
                 WebDriverManager.edgedriver().setup();
@@ -42,7 +43,7 @@ public class Driver {
             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds( Long.parseLong(ConfigReader.getProperty("pageLoadTime"))));
             return driver;
         }
-        throw  new RuntimeException("No Driver was found");
+        throw  new RuntimeException("Be smart, put right browser name!!");
     }
 }
 
